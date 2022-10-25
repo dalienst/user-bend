@@ -71,11 +71,11 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("username", "bio", "image")
+        fields = ("username", "bio", "location")
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get("bio", instance.bio)
-        instance.image = validated_data.get("image", instance.image)
+        instance.location = validated_data.get("location", instance.location)
         instance.save()
         return instance
 

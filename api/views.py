@@ -12,7 +12,7 @@ from api.serializers import UserSerializer, LogoutSerializer, ProfileSerializer
 from api.models import Profile
 from api.permissions import IsUser
 
-User = get_user_model
+User = get_user_model()
 
 
 class UserRegister(APIView):
@@ -31,6 +31,7 @@ class UserRegister(APIView):
 class UserView(generics.ListAPIView):
     serializer_class = UserSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = User.objects.all()
 
 
 class LogoutView(GenericAPIView):
