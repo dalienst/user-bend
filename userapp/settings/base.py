@@ -175,3 +175,11 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "UPDATE_LAST_LOGIN": False,
 }
+
+# sendgrid settings
+EMAIL_HOST = "smtp.sendgrid.net"
+EMAIL_HOST_USER = "apikey"
+EMAIL_HOST_PASSWORD = config("SENDGRID_API_KEY", "")
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USER = config("EMAIL_USER", "")

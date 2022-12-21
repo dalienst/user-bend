@@ -8,9 +8,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api.serializers import UserSerializer, LogoutSerializer, ProfileSerializer
+from api.serializers import UserSerializer, LogoutSerializer, ProfileSerializer, VerifyEmailSerializer
 from api.models import Profile
-from api.permissions import IsUser
+from api.permissions import IsUser, MeUser
 
 User = get_user_model()
 
@@ -33,6 +33,23 @@ class UserView(generics.ListAPIView):
     permission_classes = (IsAuthenticated,)
     queryset = User.objects.all()
 
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = UserSerializer
+    lookup_field = "id"
+    queryset = User.objects.all()
+    permission_classes = [
+        IsAuthenticated,
+        IsUser,
+    ]
+
+    def delete(self, request, *args, **kwargs):
+        user = self.request.user
+        user.delete()
+        return Response(
+            {"message": "User deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
 
 class LogoutView(GenericAPIView):
     serializer_class = LogoutSerializer
@@ -47,11 +64,24 @@ class LogoutView(GenericAPIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class VerifyEmailView(GenericAPIView):
+    serializer_class = VerifyEmailSerializer
+
+    def patch(
+        self, request: Request, uidb64: str, token: str, **kwargs: str
+    ) -> Response:
+        data = {"uidb64": uidb64, "token": token}
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response("Email verified", status=status.HTTP_200_OK)  
+
 
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (
         IsAuthenticated,
-        IsUser,
+        MeUser,
     )
     serializer_class = ProfileSerializer
     lookup_field = "user"

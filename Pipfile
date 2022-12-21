@@ -4,23 +4,23 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
-djangorestframework = "*"
-djangorestframework-simplejwt = "*"
-markdown = "*"
-dj-database-url = "*"
-python-decouple = "*"
-psycopg2 = "*"
-django-cors-headers = "*"
-gunicorn = "*"
-whitenoise = "*"
+django = "4.1.2"
+djangorestframework = "3.14.0"
+djangorestframework-simplejwt = "5.2.2"
+markdown = "3.4.1"
+dj-database-url = "1.0.0"
+python-decouple = "3.6"
+psycopg2 = "2.9.4"
+django-cors-headers = "3.13.0"
+gunicorn = "20.1.0"
+whitenoise = "6.2.0"
 
 [dev-packages]
-black = "*"
-autopep8 = "*"
-pep8 = "*"
-pylint = "*"
-pylint-django = "*"
+black = "22.10.0"
+autopep8 = "1.7.0"
+pep8 = "1.7.1"
+pylint = "2.15.5"
+pylint-django = "2.5.3"
 
 [requires]
 python_version = "3.10"
