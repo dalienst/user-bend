@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.utils.translation import gettext_lazy as _
+from cloudinary.models import CloudinaryField
 from api.abstracts import TimeStampedModel, UniversalIdModel
 
 
@@ -85,6 +86,6 @@ class Profile(UniversalIdModel):
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    # Add image
+    image = CloudinaryField("image")
     bio = models.CharField(blank=True, max_length=500, null=True)
     location = models.CharField(blank=True, max_length=500, null=True)

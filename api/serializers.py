@@ -135,14 +135,16 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     username = serializers.CharField(read_only=True, source="user.username")
     bio = serializers.CharField(allow_blank=True, required=False)
+    image = serializers.ImageField(use_url=True, required=False)
     location = serializers.CharField(allow_blank=True, required=False)
 
     class Meta:
         model = Profile
-        fields = ("username", "bio", "location")
+        fields = ("username", "bio", "image", "location")
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get("bio", instance.bio)
+        instance.image = validated_data.get("image", instance.image)
         instance.location = validated_data.get("location", instance.location)
         instance.save()
         return instance

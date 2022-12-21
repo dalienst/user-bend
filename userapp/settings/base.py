@@ -15,6 +15,9 @@ import dj_database_url
 from corsheaders.defaults import default_headers
 from decouple import config
 from datetime import timedelta
+import cloudinary
+import cloudinary.api
+import cloudinary.uploader
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,9 +82,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
 ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = default_headers + ("Access-Control-Allow-Origin",)
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "https://attendbend.up.railway.app",
+# ]
 
 AUTH_USER_MODEL = "api.User"
 
@@ -148,6 +155,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -183,3 +192,9 @@ EMAIL_HOST_PASSWORD = config("SENDGRID_API_KEY", "")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USER = config("EMAIL_USER", "")
+
+cloudinary.config(
+    cloud_name=config("CLOUDINARY_NAME"),
+    api_key=config("CLOUDINARY_API_KEY"),
+    api_secret=config("CLOUDINARY_API_SECRET"),
+)
