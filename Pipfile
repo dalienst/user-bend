@@ -24,7 +24,7 @@ pylint = "2.15.5"
 pylint-django = "2.5.3"
 
 [requires]
-python_version = "3.10"
+python_version = "3.10.6"
 
 [pipenv]
 allow_prereleases = true
