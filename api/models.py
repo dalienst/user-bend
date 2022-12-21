@@ -87,5 +87,9 @@ class Profile(UniversalIdModel):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = CloudinaryField("image")
-    bio = models.CharField(blank=True, max_length=500, null=True)
+    firstname = models.CharField(blank=True, max_length=500, null=True)
+    lastname = models.CharField(blank=True, max_length=500, null=True)
+    phonenumber = models.PositiveIntegerField()
     location = models.CharField(blank=True, max_length=500, null=True)
+    dob = models.DateField(auto_now=False, auto_now_add=False)
+    bio = models.CharField(blank=True, max_length=500, null=True)

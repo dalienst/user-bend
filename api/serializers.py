@@ -134,18 +134,26 @@ class ProfileSerializer(serializers.ModelSerializer):
     """
 
     username = serializers.CharField(read_only=True, source="user.username")
-    bio = serializers.CharField(allow_blank=True, required=False)
     image = serializers.ImageField(use_url=True, required=False)
+    firstname = serializers.CharField(allow_blank=True, required=False)
+    lastname = serializers.CharField(allow_blank=True, required=False)
+    phonenumber = serializers.IntegerField(required=False)
     location = serializers.CharField(allow_blank=True, required=False)
+    dob = serializers.DateField(required=False)
+    bio = serializers.CharField(allow_blank=True, required=False)
 
     class Meta:
         model = Profile
-        fields = ("username", "bio", "image", "location")
+        fields = ("username", "bio", "image", "location", "firstname", "lastname", "phonenumber", "dob")
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get("bio", instance.bio)
         instance.image = validated_data.get("image", instance.image)
         instance.location = validated_data.get("location", instance.location)
+        instance.firstname = validated_data.get("firstname", instance.firstname)
+        instance.lastname = validated_data.get("lastname", instance.lastname)
+        instance.phonenumber = validated_data.get("phonenumber", instance.phonenumber)
+        instance.dob = validated_data.get("dob", instance.dob)
         instance.save()
         return instance
 
