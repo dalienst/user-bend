@@ -7,6 +7,7 @@ from django.contrib.auth.models import (
 from django.utils.translation import gettext_lazy as _
 from cloudinary.models import CloudinaryField
 from api.abstracts import TimeStampedModel, UniversalIdModel
+from datetime import date
 
 
 class UserManager(BaseUserManager):
@@ -91,5 +92,5 @@ class Profile(UniversalIdModel):
     lastname = models.CharField(blank=True, max_length=500, null=True)
     phonenumber = models.BigIntegerField(_("phone number"), default=0, blank=False)
     location = models.CharField(blank=True, max_length=500, null=True)
-    dob = models.DateField(auto_now=False, auto_now_add=False)
+    dob = models.DateField(_("dob"), default=date.today)
     bio = models.CharField(blank=True, max_length=500, null=True)

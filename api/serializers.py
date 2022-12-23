@@ -139,7 +139,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     lastname = serializers.CharField(allow_blank=True, required=False)
     phonenumber = serializers.IntegerField()
     location = serializers.CharField(allow_blank=True, required=False)
-    dob = serializers.DateField(required=False)
+    dob = serializers.DateField()
     bio = serializers.CharField(allow_blank=True, required=False)
 
     class Meta:
