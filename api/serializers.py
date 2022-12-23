@@ -137,7 +137,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(use_url=True, required=False)
     firstname = serializers.CharField(allow_blank=True, required=False)
     lastname = serializers.CharField(allow_blank=True, required=False)
-    phonenumber = serializers.IntegerField(required=False)
+    phonenumber = serializers.IntegerField()
     location = serializers.CharField(allow_blank=True, required=False)
     dob = serializers.DateField(required=False)
     bio = serializers.CharField(allow_blank=True, required=False)
