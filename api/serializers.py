@@ -60,71 +60,71 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ("id", "email", "username", "password")
         read_only_fields = ("id", "is_verified")
 
-    @staticmethod
-    def send_email(user, request):
-        current_site_info = get_current_site(request)
-        email_body = render_to_string(
-            "email_verification.html",
-            {
-                "user": user,
-                "domain": current_site_info.domain,
-                "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                "token": account_activation_token.make_token(user),
-            }
+    # @staticmethod
+    # def send_email(user, request):
+    #     current_site_info = get_current_site(request)
+    #     email_body = render_to_string(
+    #         "email_verification.html",
+    #         {
+    #             "user": user,
+    #             "domain": current_site_info.domain,
+    #             "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+    #             "token": account_activation_token.make_token(user),
+    #         }
 
-        )
-        send_mail(
-            "Please Verify your email!!!",
-            email_body,
-            EMAIL_USER,
-            [user.email],
-            fail_silently=False,
-        )
+    #     )
+    #     send_mail(
+    #         "Please Verify your email!!!",
+    #         email_body,
+    #         EMAIL_USER,
+    #         [user.email],
+    #         fail_silently=False,
+    #     )
 
     def create(self, validated_data):
-        request = self.context.get("request")
+        # request = self.context.get("request")
         user = User.objects.create_user(**validated_data)
         user.save()
         Profile.objects.create(user=user)
-        self.send_email(user, request)
+        # self.send_email(user, request)
         return user
 
 
 
-class VerifyEmailSerializer(serializers.Serializer):
-    token = serializers.CharField()
-    uidb64 = serializers.CharField()
+# class VerifyEmailSerializer(serializers.Serializer):
+#     token = serializers.CharField()
+#     uidb64 = serializers.CharField()
 
-    class Meta:
-        fields = ("token", "uidb64")
+#     class Meta:
+#         fields = ("token", "uidb64")
 
-    def validate(self, data):
-        user = None
-        try:
-            user_id = force_str(urlsafe_base64_decode(data.get("uidb64")))
-            user = User.objects.get(pk=user_id)
+#     def validate(self, data):
+#         user = None
+#         try:
+#             user_id = force_str(urlsafe_base64_decode(data.get("uidb64")))
+#             user = User.objects.get(pk=user_id)
 
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            raise serializers.ValidationError(
-                "Invalid user id", code="invalid_code"
-            )
+#         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+#             raise serializers.ValidationError(
+#                 "Invalid user id", code="invalid_code"
+#             )
 
-        token = data.get("token")
-        if user and account_activation_token.check_token(user, token):
-            return data
+#         token = data.get("token")
+#         if user and account_activation_token.check_token(user, token):
+#             return data
 
-        raise serializers.ValidationError(
-            "Invalid or expired token", code="invalid_token"
-        )
+#         raise serializers.ValidationError(
+#             "Invalid or expired token", code="invalid_token"
+#         )
 
-    def save(self, **kwargs):
-        user_id = force_str(
-            urlsafe_base64_decode(self.validated_data.get("uidb64"))
-        )
-        user = User.objects.get(pk=user_id)
-        user.is_verified = True
-        user.save()
-        return user
+#     def save(self, **kwargs):
+#         user_id = force_str(
+#             urlsafe_base64_decode(self.validated_data.get("uidb64"))
+#         )
+#         user = User.objects.get(pk=user_id)
+#         user.is_verified = True
+#         user.save()
+#         return user
              
 
 

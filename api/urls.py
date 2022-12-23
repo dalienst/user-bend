@@ -10,7 +10,6 @@ from api.views import (
     ProfileListView,
     ProfileDetailView,
     UserView,
-    VerifyEmailView,
     UserDetailView,
 )
 
@@ -20,11 +19,11 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("register/", UserRegister.as_view(), name="register"),
     
-    path(
-        "email-verify/<str:uidb64>/<str:token>/",
-        VerifyEmailView.as_view(),
-        name="email-verify",
-    ),
+    # path(
+    #     "email-verify/<str:uidb64>/<str:token>/",
+    #     VerifyEmailView.as_view(),
+    #     name="email-verify",
+    # ),
 
     path("me/<str:id>/", UserDetailView.as_view(), name="me-detail"),
     path("profile/<str:user>/", ProfileDetailView.as_view(), name="profile"),
