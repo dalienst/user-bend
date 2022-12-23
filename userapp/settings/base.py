@@ -33,10 +33,11 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "user-app-hvr7.onrender.com",
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
     "localhost",
     "127.0.0.1",
-    "user-app-hvr7.onrender.com",
 ]
 
 

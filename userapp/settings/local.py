@@ -5,6 +5,7 @@ ALLOWED_HOSTS += [
     "localhost",
     "127.0.0.1",
     "user-app-hvr7.onrender.com",
+    "http://127.0.0.1:3000",
 ]
 
 DEBUG = True
