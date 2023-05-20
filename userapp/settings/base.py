@@ -33,6 +33,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    "user-bend-production.up.railway.app",
     "user-app-hvr7.onrender.com",
     "http://localhost:3000",
     "http://127.0.0.1:3000",
@@ -84,6 +85,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://user-app-hvr7.onrender.com",
+    "https://user-bend-production.up.railway.app",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

@@ -6,6 +6,7 @@ ALLOWED_HOSTS += [
     "127.0.0.1",
     "user-app-hvr7.onrender.com",
     "http://127.0.0.1:3000",
+    "user-bend-production.up.railway.app",
 ]
 
 DEBUG = True
