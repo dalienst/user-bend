@@ -57,8 +57,21 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "email", "username", "password")
-        read_only_fields = ("id", "is_verified")
+        fields = (
+            "id",
+            "email",
+            "username",
+            "password",
+            "is_verified",
+            "is_staff",
+            "is_engineer",
+        )
+        read_only_fields = (
+            "id",
+            "is_verified",
+            "is_staff",
+            "is_engineer",
+        )
 
     # @staticmethod
     # def send_email(user, request):
@@ -88,7 +101,6 @@ class UserSerializer(serializers.ModelSerializer):
         Profile.objects.create(user=user)
         # self.send_email(user, request)
         return user
-
 
 
 # class VerifyEmailSerializer(serializers.Serializer):
@@ -125,7 +137,65 @@ class UserSerializer(serializers.ModelSerializer):
 #         user.is_verified = True
 #         user.save()
 #         return user
-             
+
+
+class EngineerSerializer(serializers.ModelSerializer):
+    """
+    Engineers serializer
+    """
+
+    id = serializers.CharField(
+        read_only=True,
+    )
+
+    username = serializers.CharField(
+        max_length=20,
+        min_length=4,
+        validators=[UniqueValidator(queryset=User.objects.all())],
+    )
+
+    email = serializers.EmailField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())],
+    )
+
+    password = serializers.CharField(
+        max_length=128,
+        min_length=5,
+        write_only=True,
+        validators=[
+            validate_password_digit,
+            validate_password_uppercase,
+            validate_password_symbol,
+            validate_password_lowercase,
+        ],
+    )
+
+    class Meta:
+        model = User
+        fields = (
+            "id",
+            "email",
+            "username",
+            "password",
+            "is_verified",
+            "is_engineer",
+            "is_staff",
+        )
+        read_only_fields = (
+            "id",
+            "is_verified",
+            "is_engineer",
+            "is_staff",
+        )
+
+    def create(self, validated_data):
+        engineer = User.objects.create_user(**validated_data)
+        engineer.is_verified = True
+        engineer.is_engineer = True
+        engineer.save()
+        Profile.objects.create(user=engineer)
+        return engineer
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -144,7 +214,16 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ("username", "bio", "image", "location", "firstname", "lastname", "phonenumber", "dob")
+        fields = (
+            "username",
+            "bio",
+            "image",
+            "location",
+            "firstname",
+            "lastname",
+            "phonenumber",
+            "dob",
+        )
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get("bio", instance.bio)
