@@ -131,9 +131,7 @@ class LogoutView(GenericAPIView):
 
 
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (
-        IsAuthenticated,
-    )
+    permission_classes = [MeUser,]
     serializer_class = ProfileSerializer
     lookup_field = "user"
     queryset = Profile.objects.all()
