@@ -133,7 +133,6 @@ class LogoutView(GenericAPIView):
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (
         IsAuthenticated,
-        MeUser,
     )
     serializer_class = ProfileSerializer
     lookup_field = "user"
