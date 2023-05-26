@@ -14,6 +14,7 @@ from api.views import (
     EngineerRegister,
     EngineerDetailView,
     EngineerList,
+    VerifyEmailView,
 )
 
 urlpatterns = [
@@ -24,11 +25,11 @@ urlpatterns = [
     path("register/engineer/", EngineerRegister.as_view(), name="engineer-register"),
     path("engineer/<str:id>/", EngineerDetailView.as_view(), name="engineer-detail"),
     path("engineers/", EngineerList.as_view(), name="engineers"),
-    # path(
-    #     "email-verify/<str:uidb64>/<str:token>/",
-    #     VerifyEmailView.as_view(),
-    #     name="email-verify",
-    # ),
+    path(
+        "email-verify/<str:uidb64>/<str:token>/",
+        VerifyEmailView.as_view(),
+        name="email-verify",
+    ),
     path("me/<str:id>/", UserDetailView.as_view(), name="me-detail"),
     path("profile/<str:user>/", ProfileDetailView.as_view(), name="profile"),
     path("users/", UserView.as_view(), name="users"),

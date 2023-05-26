@@ -13,6 +13,7 @@ from api.serializers import (
     LogoutSerializer,
     ProfileSerializer,
     EngineerSerializer,
+    VerifyEmailSerializer,
 )
 from api.models import Profile
 from api.permissions import IsUser, MeUser
@@ -108,7 +109,6 @@ class LogoutView(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):  # type:ignore[no-untyped-def]
-
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -116,22 +116,24 @@ class LogoutView(GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# class VerifyEmailView(GenericAPIView):
-#     serializer_class = VerifyEmailSerializer
+class VerifyEmailView(GenericAPIView):
+    serializer_class = VerifyEmailSerializer
 
-#     def patch(
-#         self, request: Request, uidb64: str, token: str, **kwargs: str
-#     ) -> Response:
-#         data = {"uidb64": uidb64, "token": token}
+    def patch(
+        self, request: Request, uidb64: str, token: str, **kwargs: str
+    ) -> Response:
+        data = {"uidb64": uidb64, "token": token}
 
-#         serializer = self.get_serializer(data=data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response("Email verified", status=status.HTTP_200_OK)
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response("Email verified", status=status.HTTP_200_OK)
 
 
 class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = [MeUser,]
+    permission_classes = [
+        MeUser,
+    ]
     serializer_class = ProfileSerializer
     lookup_field = "user"
     queryset = Profile.objects.all()
